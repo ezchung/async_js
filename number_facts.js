@@ -1,17 +1,19 @@
 "use strict";
 
 const NUMBERS_API_URL = "http://numbersapi.com/";
-const $factsSection = $("#facts_list");
+const $cards = $("#cards");
+const $drawCardBtn = $("#draw_card");
+
 
 /** Takes inputted numbers, queries the NUMBERS API and appends the facts from
  * NUMBERS API into the DOM.
  */
 async function getNumbersFacts(...numbers) {
   $factsSection.empty();
-    let params = numbers.join(",");
+  let params = numbers.join(",");
 
   const facts = await axios({ url: NUMBERS_API_URL + params + '?json' });
-//   console.log(facts)
+  //   console.log(facts)
   for (let fact in facts.data) {
     // console.log(text)
     $factsSection.append($(`<li>${facts.data[fact]}</li>`));
@@ -29,7 +31,7 @@ async function getNumberFact(number) {
   const fact4 = axios({ url: NUMBERS_API_URL + number + '?json' });
   let resp = await Promise.allSettled([fact1, fact2, fact3, fact4]);
 
-  for(let fact of resp){
+  for (let fact of resp) {
     $factsSection.append($(`<li>${fact.value.data.text}</li>`));
   }
 }
